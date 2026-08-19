@@ -8,35 +8,55 @@ export default function ContactForm() {
   const [error, setError] = useState("");
 
   async function submit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setState("sending");
-    setError("");
-    const form = new FormData(e.currentTarget);
-    const payload = Object.fromEntries(form.entries());
-    const qs = new URLSearchParams(window.location.search);
-    Object.assign(payload, {
-      utm_source: qs.get("utm_source") || "",
-      utm_medium: qs.get("utm_medium") || "",
-      utm_campaign: qs.get("utm_campaign") || "",
-      referrer: document.referrer,
-      landing_page: window.location.href,
+  e.preventDefault();
+
+  const formElement = e.currentTarget;
+
+  setState("sending");
+  setError("");
+
+  const form = new FormData(formElement);
+  const payload = Object.fromEntries(form.entries());
+
+  const qs = new URLSearchParams(window.location.search);
+
+  Object.assign(payload, {
+    utm_source: qs.get("utm_source") || "",
+    utm_medium: qs.get("utm_medium") || "",
+    utm_campaign: qs.get("utm_campaign") || "",
+    referrer: document.referrer,
+    landing_page: window.location.href,
+  });
+
+  try {
+    const res = await fetch("/api/leads", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
     });
 
-    try {
-      const res = await fetch("/api/leads", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "No s'ha pogut enviar el formulari.");
-      e.currentTarget.reset();
-      setState("success");
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Error inesperat.");
-      setState("error");
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(
+        data.error || "No s'ha pogut enviar el formulari."
+      );
     }
+
+    formElement.reset();
+    setState("success");
+  } catch (err) {
+    setError(
+      err instanceof Error
+        ? err.message
+        : "Error inesperat."
+    );
+
+    setState("error");
   }
+}
 
   return (
     <form className="form" onSubmit={submit}>
