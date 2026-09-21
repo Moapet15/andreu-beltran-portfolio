@@ -14,10 +14,6 @@ export const metadata: Metadata = {
   description:
     "Desenvolupament web, software a mida i automatització de processos per a empreses.",
 
-  alternates: {
-    canonical: "/",
-  },
-
   verification: {
     google: "gwyCtKHwM9WV3Uau_enndTG1zOH6kAbiO1aLHlfrv2o",
   },

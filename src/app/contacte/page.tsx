@@ -3,6 +3,9 @@ import ContactForm from "@/components/ContactForm";
 
 export const metadata: Metadata = {
   title: "Contacte",
+  alternates: {
+    canonical: "/contacte",
+  },
 };
 
 export default function ContactPage() {

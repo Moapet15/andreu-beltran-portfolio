@@ -1,6 +1,13 @@
 import Link from "next/link";
 import ProjectCard from "@/components/ProjectCard";
 import { projects } from "@/lib/projects";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "/",
+  },
+};
 
 const featuredProjects = projects.filter(
   (project) => project.category === "featured"

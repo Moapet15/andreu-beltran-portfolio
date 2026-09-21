@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-export const metadata: Metadata = { title: "Serveis" };
+export const metadata: Metadata = {
+  title: "Serveis",
+  alternates: {
+    canonical: "/serveis",
+  },
+};
 
 const services = [
   ["Automatització de processos", "Tasques repetitives, tractament de fitxers, generació d'informes, moviments de dades, correus i fluxos que avui depenen d'operacions manuals."],
